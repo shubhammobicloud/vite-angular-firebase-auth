@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1010793515772",
+    "firebase_url": "https://authentication-9ccd4-default-rtdb.firebaseio.com",
+    "project_id": "authentication-9ccd4",
+    "storage_bucket": "authentication-9ccd4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010793515772:android:9236157de6bf57f68de579",
+        "android_client_info": {
+          "package_name": "com.webrtc.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010793515772-33i18vta1uqplbho0e9qo6951kdq8asp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.webrtc.myapp",
+            "certificate_hash": "5a4043eb888eaebe7a7a48ce73b1788b16adb636"
+          }
+        },
+        {
+          "client_id": "1010793515772-uqv19et496q777cb3c048v8n2uvli8h7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNNQl-u71lQNLygTkshqfoBDhhC789Hwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010793515772-9oif2sl8t7v86f8776h65t5t9n66ufi1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

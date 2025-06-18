@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">vite-angular-project</string>
+    <string name="title_activity_main">vite-angular-project</string>
+    <string name="package_name">com.webrtc.myapp</string>
+    <string name="custom_url_scheme">com.webrtc.myapp</string>
+</resources>

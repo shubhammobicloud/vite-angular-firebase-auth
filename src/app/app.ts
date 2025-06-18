@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { Auth, GoogleAuthProvider, signInWithPopup, signOut } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, signInWithPopup, signInWithCredential, signOut, User } from '@angular/fire/auth';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+import { Capacitor } from '@capacitor/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,34 +12,35 @@ import { CommonModule } from '@angular/common';
 })
 export class App {
   private auth = inject(Auth);
-  user: any = null;
+  user: User | null = null;
 
   constructor() {
-    this.auth.onAuthStateChanged((user) => {
-      this.user = user;
-      console.log("user", this.user);
-    });
+    this.auth.onAuthStateChanged((u) => (this.user = u));
   }
 
   async loginWithGoogle() {
-    const provider = new GoogleAuthProvider();
-    try {
+    const isNative = Capacitor.isNativePlatform();
+    console.log("isnative", isNative)
+
+    if (isNative) {
+      console.log("using native start")
+      const result = await FirebaseAuthentication.signInWithGoogle();
+      console.log("using native result", result)
+      const credential = GoogleAuthProvider.credential(result.credential?.idToken);
+      console.log("using native credential", credential)
+      const userCred = await signInWithCredential(this.auth, credential);
+      console.log("using native userCred", userCred)
+      this.user = userCred.user;
+    } else {
+      const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
       this.user = result.user;
-      console.log('User signed in:', this.user);
-    } catch (error) {
-      console.error('Login failed', error);
     }
   }
 
   async logout() {
-    try {
-      await signOut(this.auth);
-      this.user = null;
-      console.log('User signed out');
-    } catch (error) {
-      console.error('Logout failed', error);
-    }
+    await FirebaseAuthentication.signOut(); // no-op on web
+    await signOut(this.auth);
+    this.user = null;
   }
-
 }
