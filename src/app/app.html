@@ -1,9 +1,7 @@
-<div *ngIf="user; else login">
-  <p>Welcome, {{ user.displayName }}</p>
-  <img [src]="user.photoURL" width="50" />
-  <button (click)="logout()">Logout</button>
-</div>
-
-<ng-template #login>
-  <button (click)="loginWithGoogle()">Login with Google</button>
-</ng-template>
+@if(user){
+<p>Welcome, {{ user.displayName }}</p>
+<img [src]="user.photoURL" width="50" />
+<button (click)="logout()">Logout</button>
+}@else {
+<button (click)="loginWithGoogle()">Login with Google</button>
+}

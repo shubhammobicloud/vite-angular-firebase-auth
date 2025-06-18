@@ -4,8 +4,8 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 
 import { routes } from './app.routes';
 import { environment } from '../environment/environment';
-import { provideAuth } from '@angular/fire/auth';
-import { getAuth } from 'firebase/auth';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideDatabase, getDatabase } from '@angular/fire/database'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth())
+    provideAuth(() => getAuth()),
+    provideDatabase(() => getDatabase()),
   ]
 };

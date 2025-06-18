@@ -1,21 +1,27 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup, signInWithCredential, signOut, User } from '@angular/fire/auth';
+import { Database } from '@angular/fire/database';
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 import { Capacitor } from '@capacitor/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
   private auth = inject(Auth);
+   private database = inject(Database);
+  private cdr = inject(ChangeDetectorRef);
   user: User | null = null;
 
-  constructor() {
-    this.auth.onAuthStateChanged((u) => (this.user = u));
+  ngOnInit() {
+    this.auth.onAuthStateChanged((u) => {
+      this.user = u;
+      console.log('User is', u ? 'logged in' : 'not logged in');
+      this.cdr.detectChanges();
+    });
   }
 
   async loginWithGoogle() {
@@ -23,24 +29,23 @@ export class App {
     console.log("isnative", isNative)
 
     if (isNative) {
-      console.log("using native start")
       const result = await FirebaseAuthentication.signInWithGoogle();
-      console.log("using native result", result)
       const credential = GoogleAuthProvider.credential(result.credential?.idToken);
-      console.log("using native credential", credential)
       const userCred = await signInWithCredential(this.auth, credential);
-      console.log("using native userCred", userCred)
       this.user = userCred.user;
     } else {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
       this.user = result.user;
     }
+
+    this.cdr.detectChanges();
   }
 
   async logout() {
     await FirebaseAuthentication.signOut(); // no-op on web
     await signOut(this.auth);
     this.user = null;
+    this.cdr.detectChanges();
   }
 }
